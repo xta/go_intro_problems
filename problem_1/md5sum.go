@@ -19,17 +19,25 @@ import (
 )
 
 func main() {
-	var filename string = "sample.txt"
+	filename := "sample.txt"
 
 	log.Println("Opening file: " + filename)
-	f, err := os.Open(filename)
+
+	md5Hash := processFile(filename)
+
+	log.Println("md5hash of", filename, ":", md5Hash)
+}
+
+func processFile(filePath string) (hash string) {
+	f, err := os.Open(filePath)
 	if err != nil {
 		log.Fatal("Error: couldnt open file.")
 	}
 	defer f.Close()
 
 	md5Hash := hashFile(f)
-	log.Println("md5hash of", filename, ":", md5Hash)
+
+	return md5Hash
 }
 
 func hashFile(file *os.File) (hash string) {
