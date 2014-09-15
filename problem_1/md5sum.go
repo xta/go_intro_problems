@@ -16,6 +16,8 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"bitbucket.org/kardianos/osext"
 )
 
 func main() {
@@ -30,7 +32,12 @@ func inputFile() (file *os.File) {
 	if stdinPresent() {
 		file = os.Stdin
 	} else {
-		file = openFile("sample.txt")
+		exe, err := osext.Executable()
+		if err != nil {
+			log.Fatal("Error: couldnt get path to executable.")
+		}
+
+		file = openFile(exe)
 	}
 	return
 }
