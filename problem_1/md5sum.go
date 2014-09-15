@@ -19,28 +19,37 @@ import (
 )
 
 func main() {
-	filename := "sample.txt"
-
-	log.Println("Opening file: " + filename)
-
-	md5Hash := processFile(filename)
-
-	log.Println("md5hash of", filename, ":", md5Hash)
+	file := inputFile()
+	hash := hashFile(file)
+	log.Println(hash)
 }
 
-func processFile(filePath string) (hash string) {
+func inputFile() (file *os.File) {
+	if stdinPresent() {
+		file = os.Stdin
+	} else {
+		file = openFile("sample.txt")
+	}
+	return
+}
+
+func stdinPresent() bool {
+	if stats, _ := os.Stdin.Stat(); stats.Size() > 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func openFile(filePath string) (f *os.File) {
 	f, err := os.Open(filePath)
 	if err != nil {
 		log.Fatal("Error: couldnt open file.")
 	}
-	defer f.Close()
-
-	md5Hash := hashFile(f)
-
-	return md5Hash
+	return
 }
 
-func hashFile(file *os.File) (hash string) {
+func hashFile(file *os.File) string {
 	hasher := md5.New()
 	io.Copy(hasher, file)
 	return hex.EncodeToString(hasher.Sum(nil))
