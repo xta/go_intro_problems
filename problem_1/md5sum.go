@@ -20,6 +20,8 @@ import (
 
 func main() {
 	file := inputFile()
+	defer file.Close()
+
 	hash := hashFile(file)
 	log.Println(hash)
 }
