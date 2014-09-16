@@ -112,12 +112,30 @@ func handleDeleteRequest(key string) string {
 func handleCountRequest(w http.ResponseWriter, req *http.Request) {
 	if req.Method == "GET" {
 		io.WriteString(w, "Count: ")
-		io.WriteString(w, datastoreCount())
+
+		params := req.URL.Query()
+		if len(params) > 0 {
+			query := params["q"][0] // Warning: This does not handle keys besides "q"
+			queryCount := numKeyStartsWith(query)
+			io.WriteString(w, queryCount)
+		} else {
+			io.WriteString(w, datastoreCount())
+		}
 	}
 }
 
 func datastoreCount() string {
 	return strconv.Itoa(len(datastore))
+}
+
+func numKeyStartsWith(query string) string {
+	count := 0
+	for key, _ := range datastore {
+		if strings.HasPrefix(key, query) {
+			count++
+		}
+	}
+	return strconv.Itoa(count)
 }
 
 /*  ------------------------------------

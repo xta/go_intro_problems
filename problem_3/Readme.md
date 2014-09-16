@@ -29,7 +29,7 @@ curl -X "DELETE" localhost:3000/records?key=key1
 
 # COUNT
 curl localhost:3000/records/count
-curl localhost:3000/records/count?key=key
+curl localhost:3000/records/count?q=key
 ```
 
 
