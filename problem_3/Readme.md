@@ -16,16 +16,20 @@ implement a mini clone of redis: a service with a REST API, that supports the fo
 go run miniRedis.go
 
 # PUT
-curl ... localhost:3000/records
+curl -X PUT localhost:3000/records -d key1=val1
+curl -X PUT localhost:3000/records -d key2=val2
+curl -X PUT localhost:3000/records -d key3=val3
+curl -X PUT localhost:3000/records -d foo1=bar1
 
 # GET
-curl ... localhost:3000/records
+curl localhost:3000/records?key=key1
 
 # DELETE
-curl ... localhost:3000/records
+curl -X "DELETE" localhost:3000/records?key=key1
 
 # COUNT
-curl ... localhost:3000/records/counts
+curl localhost:3000/records/count
+curl localhost:3000/records/count?key=key
 ```
 
 
