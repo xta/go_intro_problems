@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/csv"
 	"log"
+	"os"
+	"strconv"
 )
 
 func main() {
@@ -24,7 +27,38 @@ func main() {
 
 // TODO: accept various size 2d array (matrix). Besides 3x3
 func matrix() [3][3]int {
-	return [3][3]int{[3]int{1, 2, 3}, [3]int{2, 2, 2}, [3]int{-1, 0, 1}}
+	return parseFile(inputFile())
+}
+
+func inputFile() (f *os.File) {
+	filename := "input.csv"
+	f, err := os.Open(filename)
+	if err != nil {
+		log.Fatal("Error: couldnt open file.")
+	}
+	return
+}
+
+func parseFile(file *os.File) (matrix [3][3]int) {
+	defer file.Close()
+	matrix = [...][3]int{[3]int{}, [3]int{}, [3]int{}}
+
+	reader := csv.NewReader(file)
+	csvLines, err := reader.ReadAll()
+	if err != nil {
+		log.Println("Error reading csv lines: ", err)
+	}
+
+	for i := range csvLines {
+		yCoord, err := strconv.Atoi(csvLines[i][0])
+		xCoord, err := strconv.Atoi(csvLines[i][1])
+		value, err := strconv.Atoi(csvLines[i][2])
+		if err != nil {
+			log.Println("Error converting string to int from csv: ", err)
+		}
+		matrix[yCoord-1][xCoord-1] = value
+	}
+	return
 }
 
 func validate(matrix [3][3]int) (err bool) {
