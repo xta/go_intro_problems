@@ -27,9 +27,9 @@ Example output for #4:
 
     octave:3> A*A'
     ans =
-       1   4  -3
-       4   4   0
-      -3   0   1
+       14   12    2
+       12   12    0
+        2    0    2
 
 The #4 exercise is a bit contrived, the arrays may not be the best option for matrices (it depends on whether they are sparse or dense) but the point of the exercise is to get familiar with arrays vs. slices. So please try and find a way to use arrays even if it feels suboptimal. To simplify the problem, it should only handle matrices up to 10x10.
 
@@ -37,4 +37,4 @@ Use nothing but the standard library, you shouldn't need anything else to implem
 
 ### Tests
 
-    ...
+    go test

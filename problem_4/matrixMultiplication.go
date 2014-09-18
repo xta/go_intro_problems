@@ -59,7 +59,10 @@ func multiplyMatrices(original [3][3]int, transposed [3][3]int) (product [3][3]i
 	width := firstWidth
 	for h := 0; h < height; h++ {
 		for w := 0; w < width; w++ {
-			product[h][w] = original[h][w] * transposed[h][w]
+			product[h][w] = 0
+			for i := 0; i < width; i++ {
+				product[h][w] += original[h][i] * transposed[i][w]
+			}
 		}
 	}
 	return
