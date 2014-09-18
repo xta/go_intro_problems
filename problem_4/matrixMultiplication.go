@@ -9,8 +9,8 @@ func main() {
 	matrix := matrix()
 
 	// check if it's square and within 10x10
-	err := validate(matrix)
-	if err {
+	ok := validate(matrix)
+	if !ok {
 		log.Fatal("Error. Please ensure your matrix is square and 10x10 or smaller.")
 	}
 
@@ -31,9 +31,9 @@ func validate(matrix [3][3]int) (err bool) {
 	height := len(matrix)
 	firstWidth := len(matrix[0])
 	if height == firstWidth && height <= 10 && firstWidth <= 10 {
-		err = false
-	} else {
 		err = true
+	} else {
+		err = false
 	}
 	return
 }
